@@ -11,9 +11,9 @@ function Page() {
     const [error, setError] = useState("")
     const router = useRouter()
 
-    const handleSignIn = ()=>{
+    const handleSignIn = () => {
         setLoading(true)
-        fetch(`${process.env.AUTH_MISCROSERVICE}/api/superuser/login`, {
+        fetch(`/api/auth`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -26,7 +26,7 @@ function Page() {
             if (data.success) {
                 localStorage.setItem("token", data.token)
                 router.push("/dashboard")
-            }else{
+            } else {
                 setLoading(false)
                 setError(data.message)
 
@@ -43,24 +43,24 @@ function Page() {
                 </div>
                 <div className='flex flex-col w-full'>
                     <label htmlFor="">Email:</label>
-                    <input type="email" className='border py-2 px-4 rounded-md' value={email} onChange={(e)=>{
+                    <input type="email" className='border py-2 px-4 rounded-md' value={email} onChange={(e) => {
                         if (!e.target.value.includes("@") || !e.target.value.includes(".")) {
                             setError("Invalid email")
-                        }else{
+                        } else {
                             setError("")
                         }
                         setEmail(e.target.value)
-                    }}/>
+                    }} />
                 </div>
                 <div className='flex flex-col w-full'>
                     <div className='flex flex-row items-center justify-between'>
                         <label htmlFor="">Password:</label>
                         <p className='text-blue-500 underline cursor-pointer select-none' onClick={() => setShowPassword(!showPassword)}>{showPassword ? "Hide" : "Show"} password</p>
                     </div>
-                    <input type={showPassword ? "text" : "password"} className='border py-2 px-4 rounded-md' value={password} onChange={(e)=>{
+                    <input type={showPassword ? "text" : "password"} className='border py-2 px-4 rounded-md' value={password} onChange={(e) => {
                         if (e.target.value.length < 8) {
                             setError("Password must be at least 8 characters")
-                        }else{
+                        } else {
                             setError("")
                         }
                         setPassword(e.target.value)
@@ -68,9 +68,9 @@ function Page() {
                 </div>
                 <button className='bg-white text-black rounded-lg w-full py-2 cursor-pointer' onClick={handleSignIn}>Login</button>
                 <div className='flex w-full'>
-                    <p className='text-align-left'>Forgot password ? <span className='text-blue-500 underline cursor-pointer' onClick={()=>router.replace('/auth/reset_password')}>reset here</span></p>
+                    <p className='text-align-left'>Forgot password ? <span className='text-blue-500 underline cursor-pointer'>Contact admin</span></p>
                 </div>
-            </div>): <p>Loading...</p>}
+            </div>) : <p>Loading...</p>}
         </div>
     )
 }
